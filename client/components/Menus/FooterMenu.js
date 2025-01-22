@@ -4,7 +4,8 @@ import React from "react";
 const FooterMenu = () => {
     return (
         <View>
-            <Text>FooterMenu</Text>
+            <Text>Hello</Text>
+            <View>Hello</View>
         </View>
     );
 };
