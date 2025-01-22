@@ -1,4 +1,5 @@
-const { hashPassword } = require("../helpers/authHelper");
+const JWT = require("jsonwebtoken");
+const { hashPassword, comparePassword } = require("../helpers/authHelper");
 const userModel = require("../models/userModel");
 
 const registerController = async (req, res) => {
@@ -44,6 +45,7 @@ const registerController = async (req, res) => {
         res.status(201).send({
             success: true,
             message: "User registered successfully",
+            user,
         });
     } catch (error) {
         console.log("error: " + error);
@@ -55,4 +57,54 @@ const registerController = async (req, res) => {
     }
 };
 
-module.exports = registerController;
+//login
+
+const loginController = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        //validate
+        if (!email || !password) {
+            return res.status(500).send({
+                success: false,
+                message: "Please provide email and password",
+            });
+        }
+        //find user
+        const user = await userModel.findOne({ email });
+        if (!user) {
+            return res.status(500).send({
+                success: false,
+                message: "User not found",
+            });
+        }
+        //match password
+        const match = await comparePassword(password, user.password);
+        if (!match) {
+            return res.status(500).send({
+                success: false,
+                message: "Incorrect password",
+            });
+        }
+        //Token jwt
+        const token = JWT.sign({ _id: user._id }, process.env.JWT_SECRET, {
+            expiresIn: "1d",
+        });
+        //undeinfed password
+        user.password = undefined;
+        res.status(200).send({
+            success: true,
+            message: "User logged in successfully",
+            token,
+            user,
+        });
+    } catch (error) {
+        console.log("Error: " + error);
+        return res.status(500).send({
+            success: false,
+            message: "Internal Server Error",
+            error,
+        });
+    }
+};
+
+module.exports = { registerController, loginController };
