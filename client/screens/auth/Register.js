@@ -20,14 +20,11 @@ const Register = ({ navigation }) => {
                 return;
             }
             setLoading(false);
-            const { data } = await axios.post(
-                "http://localhost:3001/api/register",
-                {
-                    name,
-                    email,
-                    password,
-                }
-            );
+            const { data } = await axios.post("/auth/register", {
+                name,
+                email,
+                password,
+            });
             alert(data && data.message);
             navigation.navigate("Login");
             console.log("register: ", {

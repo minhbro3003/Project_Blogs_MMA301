@@ -26,7 +26,7 @@ app.use(morgan("dev"));
 //         message: "welcome to full stack",
 //     });
 // });
-app.use("/api", require("./routes/userRourtes"));
+app.use("/api/auth", require("./routes/userRourtes"));
 //port
 const PORT = process.env.PORT || 3001;
 
