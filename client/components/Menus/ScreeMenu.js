@@ -6,6 +6,9 @@ import Register from "../../screens/auth/Register";
 import Login from "../../screens/auth/Login";
 import { AuthContext } from "../../context/authContext";
 import HeadrMenu from "./HeadrMenu";
+import Post from "../../screens/Post";
+import About from "../../screens/About";
+import Account from "../../screens/Account";
 
 const ScreeMenu = () => {
     //global state
@@ -22,6 +25,30 @@ const ScreeMenu = () => {
                         component={Home}
                         options={{
                             title: "full app",
+                            headerRight: () => <HeadrMenu />,
+                        }}
+                    />
+                    <Stack.Screen
+                        name="Post"
+                        component={Post}
+                        options={{
+                            headerBackTitle: "Back",
+                            headerRight: () => <HeadrMenu />,
+                        }}
+                    />
+                    <Stack.Screen
+                        name="About"
+                        component={About}
+                        options={{
+                            headerBackTitle: "Back",
+                            headerRight: () => <HeadrMenu />,
+                        }}
+                    />
+                    <Stack.Screen
+                        name="Account"
+                        component={Account}
+                        options={{
+                            headerBackTitle: "Back",
                             headerRight: () => <HeadrMenu />,
                         }}
                     />
