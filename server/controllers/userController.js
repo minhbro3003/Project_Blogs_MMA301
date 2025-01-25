@@ -87,7 +87,7 @@ const loginController = async (req, res) => {
         }
         //Token jwt
         const token = JWT.sign({ _id: user._id }, process.env.JWT_SECRET, {
-            expiresIn: "1d",
+            expiresIn: "30s",
         });
         //undeinfed password
         user.password = undefined;
@@ -107,4 +107,63 @@ const loginController = async (req, res) => {
     }
 };
 
-module.exports = { registerController, loginController };
+//update user
+
+const updateUserController = async (req, res) => {
+    try {
+        const { name, password, email } = req.body;
+        //user find
+        const user = await userModel.findOne({ email });
+        //password validation
+        if (password && password.length < 6) {
+            return res.status(400).send({
+                success: false,
+                message: "Password should be 6 characters long",
+            });
+        }
+        const hashedPassword = password
+            ? await hashPassword(password)
+            : undefined;
+        //update user
+        const updateUser = await userModel.findOneAndUpdate(
+            { email },
+            {
+                name: name || user.name,
+                password: hashedPassword || user.password,
+            },
+            { new: true }
+        );
+        updateUser.password = undefined;
+        res.status(200).send({
+            success: true,
+            message: "Profile updated Please Login",
+            updateUser,
+        });
+        // const updatedUser = await userModel.findByIdAndUpdate(
+        //     userId,
+        //     req.body,
+        //     { new: true }
+        // );
+        // if (!updatedUser) {
+        //     return res.status(404).send({
+        //         success: false,
+        //         message: "User not found",
+        //     });
+        // }
+        // updatedUser.password = undefined;
+        // res.status(200).send({
+        //     success: true,
+        //     message: "User updated successfully",
+        //     user: updatedUser,
+        // });
+    } catch (error) {
+        console.log("error: " + error);
+        return res.status(500).send({
+            success: false,
+            message: "Internal Server Error Update",
+            error,
+        });
+    }
+};
+
+module.exports = { registerController, loginController, updateUserController };
