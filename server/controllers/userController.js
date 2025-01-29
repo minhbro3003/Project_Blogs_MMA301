@@ -114,6 +114,12 @@ const updateUserController = async (req, res) => {
         const { name, password, email } = req.body;
         //user find
         const user = await userModel.findOne({ email });
+        if (!user) {
+            return res.status(404).send({
+                success: false,
+                message: "User not found",
+            });
+        }
         //password validation
         if (password && password.length < 6) {
             return res.status(400).send({
@@ -139,23 +145,6 @@ const updateUserController = async (req, res) => {
             message: "Profile updated Please Login",
             updateUser,
         });
-        // const updatedUser = await userModel.findByIdAndUpdate(
-        //     userId,
-        //     req.body,
-        //     { new: true }
-        // );
-        // if (!updatedUser) {
-        //     return res.status(404).send({
-        //         success: false,
-        //         message: "User not found",
-        //     });
-        // }
-        // updatedUser.password = undefined;
-        // res.status(200).send({
-        //     success: true,
-        //     message: "User updated successfully",
-        //     user: updatedUser,
-        // });
     } catch (error) {
         console.log("error: " + error);
         return res.status(500).send({
