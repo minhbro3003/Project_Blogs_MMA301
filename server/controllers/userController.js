@@ -1,6 +1,13 @@
 const JWT = require("jsonwebtoken");
 const { hashPassword, comparePassword } = require("../helpers/authHelper");
 const userModel = require("../models/userModel");
+var { expressjwt: jwt } = require("express-jwt");
+
+//middleware
+const requireSingIn = jwt({
+    secret: process.env.JWT_SECRET,
+    algorithms: ["HS256"],
+});
 
 const registerController = async (req, res) => {
     try {
@@ -87,7 +94,7 @@ const loginController = async (req, res) => {
         }
         //Token jwt
         const token = JWT.sign({ _id: user._id }, process.env.JWT_SECRET, {
-            expiresIn: "30s",
+            expiresIn: "1d",
         });
         //undeinfed password
         user.password = undefined;
@@ -155,4 +162,4 @@ const updateUserController = async (req, res) => {
     }
 };
 
-module.exports = { registerController, loginController, updateUserController };
+module.exports = {requireSingIn, registerController, loginController, updateUserController };

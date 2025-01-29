@@ -3,6 +3,7 @@ const {
     registerController,
     loginController,
     updateUserController,
+    requireSingIn,
 } = require("../controllers/userController");
 //riouter obj
 const router = express.Router();
@@ -14,7 +15,7 @@ router.post("/register", registerController);
 router.post("/login", loginController);
 
 //update
-router.put("/update-user", updateUserController);
+router.put("/update-user", requireSingIn, updateUserController);
 
 //export
 module.exports = router;

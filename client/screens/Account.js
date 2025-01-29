@@ -14,7 +14,7 @@ import axios from "axios";
 
 const Account = () => {
     const [state, setState] = useContext(AuthContext);
-    const { user } = state;
+    const { user, token } = state;
     //local state
     const [name, setName] = useState(user?.name);
     const [email, setEmail] = useState(user?.email);
@@ -29,6 +29,10 @@ const Account = () => {
                 name,
                 password,
                 email,
+            },{
+                headers:{
+                    Authorization: `Bearer ${token && token}`
+                }
             });
             setLoading(false);
             let UD = JSON.stringify(data);
