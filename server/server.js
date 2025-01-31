@@ -27,6 +27,7 @@ app.use(morgan("dev"));
 //     });
 // });
 app.use("/api/auth", require("./routes/userRourtes"));
+app.use("/api/post", require('./routes/postRourtes'));
 //port
 const PORT = process.env.PORT || 3001;
 
