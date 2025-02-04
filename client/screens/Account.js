@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "space-between",
         margin: 10,
-        marginTop: 40,
+        marginTop: 20,
     },
     warningtext: {
         color: "red",
