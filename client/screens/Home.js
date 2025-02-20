@@ -1,9 +1,8 @@
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
 import React, { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import FooterMenu from "../components/Menus/FooterMenu";
 import { PostContext } from "../context/PostContext";
-import { ScrollView } from "react-native-web";
 import PostCard from "../components/PostCard";
 
 const Home = () => {

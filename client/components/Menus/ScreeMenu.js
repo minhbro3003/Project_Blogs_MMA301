@@ -25,7 +25,7 @@ const ScreeMenu = () => {
                         name="Home"
                         component={Home}
                         options={{
-                            title: "full app",
+                            title: "Home",
                             headerRight: () => <HeadrMenu />,
                         }}
                     />
