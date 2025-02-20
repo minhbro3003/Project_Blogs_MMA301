@@ -4,7 +4,7 @@ import InputBox from "../../components/Forms/InputBox";
 import SubmitButton from "../../components/Forms/SubmitButton";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AuthContext } from "../../context/authContext";
+import { AuthContext } from "../../context/AuthContext";
 
 const Login = ({ navigation }) => {
     //global state

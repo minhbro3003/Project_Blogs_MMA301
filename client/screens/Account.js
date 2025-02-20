@@ -8,7 +8,7 @@ import {
     ScrollView,
 } from "react-native";
 import React, { useContext, useState } from "react";
-import { AuthContext } from "../context/authContext";
+import { AuthContext } from "../context/AuthContext";
 import FooterMenu from "../components/Menus/FooterMenu";
 import axios from "axios";
 
@@ -29,14 +29,14 @@ const Account = () => {
                 name,
                 password,
                 email,
-            },{
-                headers:{
+            }, {
+                headers: {
                     Authorization: `Bearer ${token && token}`
                 }
             });
             setLoading(false);
             let UD = JSON.stringify(data);
-            setState({...state, user: UD?.updateUser})
+            setState({ ...state, user: UD?.updateUser })
             alert(data && data.message)
         } catch (error) {
             alert(error.response.data.message);
@@ -96,7 +96,7 @@ const Account = () => {
                     <TouchableOpacity style={styles.updateBtn} onPress={handleUpdate}>
                         <Text style={styles.updateText}>
                             {loading ? "Please wait..." : "Update Profile"}
-                            </Text>
+                        </Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>

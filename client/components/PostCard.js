@@ -12,12 +12,15 @@ const PostCard = ({ post }) => {
                     <Text style={styles.title} >Title: {post?.title}</Text>
                     <Text style={styles.desc}>Description: {post?.description}</Text>
                     <View style={styles.footer}>
+                        {post?.postedBy?.name && (
+                            <Text>
+                                <FontAwesome5 name="user" color={"orange"} /> {" "}
+                                {post?.postedBy?.name}
+                            </Text>
+                        )}
+
                         <Text>
-                            <FontAwesome5 name="user" color={"orange"}/> {" "}
-                            {post?.postedBy?.name}
-                        </Text>
-                        <Text>
-                        <FontAwesome5 name="clock" color={"orange"}/> {" "}
+                            <FontAwesome5 name="clock" color={"orange"} /> {" "}
                             {moment(post?.createdAt).format("DD/MM/YYYY")}
                         </Text>
                     </View>
@@ -48,7 +51,7 @@ const styles = StyleSheet.create({
         paddingBottom: 8,
         borderBottomWidth: 0.3
     },
-    desc:{
+    desc: {
         marginTop: 10,
     },
     footer: {

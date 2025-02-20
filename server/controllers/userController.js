@@ -4,7 +4,7 @@ const userModel = require("../models/userModel");
 var { expressjwt: jwt } = require("express-jwt");
 
 //middleware
-const requireSingIn = jwt({
+const requireSignIn = jwt({
     secret: process.env.JWT_SECRET,
     algorithms: ["HS256"],
 });
@@ -162,4 +162,4 @@ const updateUserController = async (req, res) => {
     }
 };
 
-module.exports = {requireSingIn, registerController, loginController, updateUserController };
+module.exports = { requireSignIn, registerController, loginController, updateUserController };

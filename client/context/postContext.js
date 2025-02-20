@@ -12,10 +12,10 @@ const PostProvider = ({ children }) => {
     const [posts, setPosts] = useState([]);
 
     //get posts
-    const getAllPosts = async() =>{
+    const getAllPosts = async () => {
         setLoading(true);
         try {
-            const {data} = await axios.get('/post/get-all-posts')
+            const { data } = await axios.get('/post/get-all-posts')
             setLoading(false);
             setPosts(data?.posts)
         } catch (error) {

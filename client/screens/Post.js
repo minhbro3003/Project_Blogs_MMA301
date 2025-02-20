@@ -10,7 +10,8 @@ import React, { useContext, useState } from "react";
 import FooterMenu from "../components/Menus/FooterMenu";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import axios from "axios";
-import { PostContext } from "../context/postContext";
+import { PostContext } from "../context/PostContext"; // ✅ Đúng
+
 
 const Post = ({ navigation }) => {
     //global state

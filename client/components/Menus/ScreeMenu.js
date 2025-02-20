@@ -4,11 +4,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "../../screens/Home";
 import Register from "../../screens/auth/Register";
 import Login from "../../screens/auth/Login";
-import { AuthContext } from "../../context/authContext";
+import { AuthContext } from "../../context/AuthContext";
 import HeadrMenu from "./HeadrMenu";
 import Post from "../../screens/Post";
 import About from "../../screens/About";
 import Account from "../../screens/Account";
+import Mypost from "../../screens/Mypost";
 
 const ScreeMenu = () => {
     //global state
@@ -37,8 +38,8 @@ const ScreeMenu = () => {
                         }}
                     />
                     <Stack.Screen
-                        name="About"
-                        component={About}
+                        name="Myposts"
+                        component={Mypost}
                         options={{
                             headerBackTitle: "Back",
                             headerRight: () => <HeadrMenu />,

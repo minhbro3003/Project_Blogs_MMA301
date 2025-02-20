@@ -106,8 +106,29 @@ const updatePostController = async (req, res) => {
         });
     }
 };
+
+const getUserPostsController = async (req, res) => {
+    try {
+        const userPosts = await postModel.find({ postedBy: req.auth._id })
+        res.status(200).send({
+            success: true,
+            message: "User's posts fetched successfully",
+            userPosts,
+        })
+        console.log("userPosts: " + userPosts)
+    } catch (error) {
+        console.log(error)
+        return res.status(500).send({
+            success: false,
+            message: "Internal Server Error API",
+            error,
+        })
+    }
+}
+
 module.exports = {
     createPostController,
     updatePostController,
     getAllPostsController,
+    getUserPostsController
 };

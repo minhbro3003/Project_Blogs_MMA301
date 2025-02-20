@@ -1,8 +1,8 @@
 import { View, Text, StyleSheet } from "react-native";
 import React, { useContext } from "react";
-import { AuthContext } from "../context/authContext";
+import { AuthContext } from "../context/AuthContext";
 import FooterMenu from "../components/Menus/FooterMenu";
-import { PostContext } from "../context/postContext";
+import { PostContext } from "../context/PostContext";
 import { ScrollView } from "react-native-web";
 import PostCard from "../components/PostCard";
 
@@ -11,10 +11,10 @@ const Home = () => {
     return (
         <View style={styles.container}>
             <ScrollView>
-                <PostCard post={posts}/>
+                <PostCard post={posts} />
                 <Text>{JSON.stringify(posts, null, 4)}</Text>
             </ScrollView>
-            <View style={{backgroundColor: "ffffff"}}></View>
+            <View style={{ backgroundColor: "ffffff" }}></View>
             <FooterMenu />
         </View>
     );
