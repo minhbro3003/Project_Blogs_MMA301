@@ -4,12 +4,15 @@ import moment from "moment";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
+import EditModal from "./EditModal";
 
 const PostCard = ({ post, myPostScreen }) => {
     const [loading, setLoading] = useState(false)
+    const [modalVisible, setModalVisible] = useState(false);
+    const [postDetail, setPostDetail] = useState({});
     const navigation = useNavigation();
     //handle delete prompt
-    const handlDeletePrompt = (id) => {
+    const handleDeletePrompt = (id) => {
         Alert.alert(
             "Attention!",
             "Are you sure you want to delete this post?",
@@ -43,34 +46,46 @@ const PostCard = ({ post, myPostScreen }) => {
 
     return (
         <View>
-            <Text style={styles.heading}>Total Posts {post?.length}</Text>
-            {post?.map((post, i) => (
-                <View style={styles.card} key={i}>
-                    {myPostScreen && (
-                        <View>
-                            <Text style={{ textAlign: "right" }}>
-                                <FontAwesome5 name="trash" size={15} color={"red"} onPress={() => handlDeletePrompt(post?._id)} />
+            <Text style={styles.heading}>Total Posts: {post?.length || 0}</Text>
+            {myPostScreen && <EditModal
+                modalVisible={modalVisible}
+                setModalVisible={setModalVisible}
+                post={postDetail}
+            />}
+            {post?.length > 0 ? (
+                post.map((post, i) => (
+                    <View style={styles.card} key={i}>
+                        {myPostScreen && (
+                            <View style={{ flexDirection: "row", justifyContent: "flex-end" }}>
+                                <Text style={{ marginHorizontal: 20 }}>
+                                    <FontAwesome5 name="pen" size={15} color="darkblue"
+                                        onPress={() => { setPostDetail(post), setModalVisible(true) }} />
+                                </Text>
+                                <Text>
+                                    <FontAwesome5 name="trash" size={15} color="red"
+                                        onPress={() => handleDeletePrompt(post?._id)} />
+                                </Text>
+                            </View>
+                        )}
+                        <Text style={styles.title}>Title: {post?.title}</Text>
+                        <Text style={styles.desc}>Description: {post?.description}</Text>
+                        <View style={styles.footer}>
+                            {post?.postedBy?.name && (
+                                <Text>
+                                    <FontAwesome5 name="user" color="orange" /> {post?.postedBy?.name}
+                                </Text>
+                            )}
+                            <Text>
+                                <FontAwesome5 name="clock" color="orange" /> {moment(post?.createdAt).format("DD/MM/YYYY")}
                             </Text>
                         </View>
-                    )}
-                    <Text style={styles.title} >Title: {post?.title}</Text>
-                    <Text style={styles.desc}>Description: {post?.description}</Text>
-                    <View style={styles.footer}>
-                        {post?.postedBy?.name && (
-                            <Text>
-                                <FontAwesome5 name="user" color={"orange"} /> {" "}
-                                {post?.postedBy?.name}
-                            </Text>
-                        )}
-
-                        <Text>
-                            <FontAwesome5 name="clock" color={"orange"} /> {" "}
-                            {moment(post?.createdAt).format("DD/MM/YYYY")}
-                        </Text>
                     </View>
-                </View>
-            ))}
+                ))
+            ) : (
+                <Text style={styles.noPostsText}>No posts available.</Text>
+            )}
         </View>
+
     );
 };
 

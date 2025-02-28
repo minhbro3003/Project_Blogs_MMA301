@@ -1,11 +1,4 @@
-import {
-    View,
-    Text,
-    StyleSheet,
-    TextInput,
-    ScrollView,
-    TouchableOpacity,
-} from "react-native";
+import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity, } from "react-native";
 import React, { useContext, useState } from "react";
 import FooterMenu from "../components/Menus/FooterMenu";
 import FontAwesome5 from "react-native-vector-icons/FontAwesome5";
@@ -132,7 +125,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     postBtn: {
-        backgroundColor: "#007bff",
+        backgroundColor: "black",
         width: "100%",
         height: 50,
         borderRadius: 10,

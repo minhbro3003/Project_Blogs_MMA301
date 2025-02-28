@@ -11,7 +11,7 @@ const Home = () => {
         <View style={styles.container}>
             <ScrollView>
                 <PostCard post={posts} />
-                <Text>{JSON.stringify(posts, null, 4)}</Text>
+                {/* <Text>{JSON.stringify(posts, null, 4)}</Text> */}
             </ScrollView>
             <View style={{ backgroundColor: "ffffff" }}></View>
             <FooterMenu />
