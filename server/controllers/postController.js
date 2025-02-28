@@ -63,39 +63,25 @@ const getAllPostsController = async (req, res) => {
 
 const updatePostController = async (req, res) => {
     try {
-        const { name, password, email } = req.body;
+        const { title, description } = req.body;
         //user find
-        const user = await userModel.findOne({ email });
-        if (!user) {
+        const post = await postModel.findById({ _id: req.params.id });
+        if (!title || !description) {
             return res.status(404).send({
                 success: false,
-                message: "User not found",
+                message: "title or description not found",
             });
         }
-        //password validation
-        if (password && password.length < 6) {
-            return res.status(400).send({
-                success: false,
-                message: "Password should be 6 characters long",
-            });
-        }
-        const hashedPassword = password
-            ? await hashPassword(password)
-            : undefined;
+
         //update user
-        const updateUser = await userModel.findOneAndUpdate(
-            { email },
-            {
-                name: name || user.name,
-                password: hashedPassword || user.password,
-            },
-            { new: true }
-        );
-        updateUser.password = undefined;
+        const updatePost = await postModel.findOneAndUpdate({ _id: req.params.id }, {
+            title: title || post?.title,
+            description: description || post?.description,
+        }, { new: true });
         res.status(200).send({
             success: true,
-            message: "Profile updated Please Login",
-            updateUser,
+            message: "Post updated successfully",
+            updatePost,
         });
     } catch (error) {
         console.log("error: " + error);

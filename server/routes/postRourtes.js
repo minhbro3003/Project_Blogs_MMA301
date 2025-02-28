@@ -10,7 +10,7 @@ router.post('/create-post', requireSignIn, createPostController);
 //get all posts
 router.get('/get-all-posts', getAllPostsController);
 //update post 
-router.post('/update-post', requireSignIn, updatePostController);
+router.put('/update-post/:id', requireSignIn, updatePostController);
 
 //get user post 
 router.get('/get-user-post', requireSignIn, getUserPostsController)
