@@ -118,7 +118,7 @@ const loginController = async (req, res) => {
 
 const updateUserController = async (req, res) => {
     try {
-        const { name, password, email } = req.body;
+        const { name, password, email, avatar } = req.body;
         //user find
         const user = await userModel.findOne({ email });
         if (!user) {
@@ -143,6 +143,7 @@ const updateUserController = async (req, res) => {
             {
                 name: name || user.name,
                 password: hashedPassword || user.password,
+                avatar: avatar || user.avatar,
             },
             { new: true }
         );

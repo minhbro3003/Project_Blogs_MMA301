@@ -7,38 +7,34 @@ const PostContext = createContext();
 
 // Tạo provider
 const PostProvider = ({ children }) => {
-    //state
-    const [loading, setLoading] = useState(false);
     const [posts, setPosts] = useState([]);
+    const [loading, setLoading] = useState(false);
 
-    //get posts
     const getAllPosts = async () => {
         setLoading(true);
         try {
-            const { data } = await axios.get('/post/get-all-posts')
-            setLoading(false);
-            setPosts(data?.posts)
+            const { data } = await axios.get("/post/get-all-posts");
+            console.log("Fetched Posts:", data?.posts); // Kiểm tra dữ liệu trả về
+            setPosts(data?.posts || []); // Đảm bảo không set posts là undefined
         } catch (error) {
-            console.log(error);
-            setLoading(false);
+            console.log("Error fetching posts:", error);
+            setPosts([]); // Set empty array in case of error
         }
-    }
-    //inintal posts
+        setLoading(false);
+    };
+
     useEffect(() => {
         getAllPosts();
-    }, []);
-
-    // let token = state && state.token;
-    // //default axios
-    // axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    // axios.defaults.baseURL = "http://192.168.1.10:3001/api";
+    }, []); // Gọi getAllPosts khi component mount
 
     return (
-        <PostContext.Provider value={[posts, setPosts]}>
+        <PostContext.Provider value={[posts, setPosts, getAllPosts]}>
             {children}
         </PostContext.Provider>
     );
 };
+
+
 
 // Export riêng
 export { PostContext, PostProvider };

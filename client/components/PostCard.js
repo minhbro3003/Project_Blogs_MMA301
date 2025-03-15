@@ -36,7 +36,7 @@ const PostCard = ({ post, myPostScreen }) => {
             const { data } = await axios.delete(`/post/delete-post/${id}`)
             setLoading(false)
             alert(data?.message)
-            navigation.navigate("Home")
+            navigation.push("Myposts")
         } catch (error) {
             setLoading(false)
             console.log(error)
@@ -82,7 +82,10 @@ const PostCard = ({ post, myPostScreen }) => {
                     </View>
                 ))
             ) : (
-                <Text style={styles.noPostsText}>No posts available.</Text>
+                <View style={styles.noPostsContainer}>
+                    <FontAwesome5 name="box-open" size={50} color="#999" />
+                    <Text style={styles.noPostsText}>No posts available.</Text>
+                </View>
             )}
         </View>
 
@@ -117,5 +120,17 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         marginTop: 10,
+    },
+    noPostsContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 40,
+    },
+    noPostsText: {
+        marginTop: 10,
+        fontSize: 18,
+        color: "#666",
+        fontWeight: "bold",
     },
 });

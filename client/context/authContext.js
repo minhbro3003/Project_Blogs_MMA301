@@ -1,4 +1,3 @@
-// Sửa authContext.js
 import React, { createContext, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
@@ -6,7 +5,6 @@ import axios from "axios";
 // Tạo context
 const AuthContext = createContext();
 
-// Tạo provider
 const AuthProvider = ({ children }) => {
     const [state, setState] = useState({
         user: null,
@@ -15,21 +13,28 @@ const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const loadLocalStorage = async () => {
-            let data = await AsyncStorage.getItem("@auth");
-            let loginData = JSON.parse(data);
-            setState({
-                ...state,
-                user: loginData?.user,
-                token: loginData?.token,
-            });
+            try {
+                const data = await AsyncStorage.getItem("@auth");
+                if (data) {
+                    const loginData = JSON.parse(data);
+                    setState({
+                        user: loginData?.user,
+                        token: loginData?.token,
+                    });
+
+                    // Cập nhật token vào axios sau khi state thay đổi
+                    axios.defaults.headers.common['Authorization'] = `Bearer ${loginData?.token}`;
+                }
+            } catch (error) {
+                console.error("Error loading auth data:", error);
+            }
         };
+
         loadLocalStorage();
     }, []);
 
-    let token = state && state.token;
-    //default axios
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    axios.defaults.baseURL = "http://192.168.2.28:3001/api";
+    // Cập nhật baseURL cho axios
+    axios.defaults.baseURL = "http://192.168.1.11:3001/api"; //192.168.1.11 | 10.33.34.134
 
     return (
         <AuthContext.Provider value={[state, setState]}>
@@ -38,5 +43,4 @@ const AuthProvider = ({ children }) => {
     );
 };
 
-// Export riêng
 export { AuthContext, AuthProvider };

@@ -7,7 +7,6 @@ import Login from "../../screens/auth/Login";
 import { AuthContext } from "../../context/AuthContext";
 import HeadrMenu from "./HeadrMenu";
 import Post from "../../screens/Post";
-import About from "../../screens/About";
 import Account from "../../screens/Account";
 import Mypost from "../../screens/Mypost";
 
@@ -18,7 +17,7 @@ const ScreeMenu = () => {
     const authenticatedUser = state?.user && state.token;
     const Stack = createNativeStackNavigator();
     return (
-        <Stack.Navigator initialRouteName="Login">
+        <Stack.Navigator initialRouteName={authenticatedUser ? "Home" : "Login"}>
             {authenticatedUser ? (
                 <>
                     <Stack.Screen

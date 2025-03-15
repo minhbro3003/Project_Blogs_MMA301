@@ -11,6 +11,7 @@ import React, { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import FooterMenu from "../components/Menus/FooterMenu";
 import axios from "axios";
+import * as ImagePicker from "expo-image-picker";
 
 const Account = () => {
     const [state, setState] = useContext(AuthContext);
@@ -19,7 +20,20 @@ const Account = () => {
     const [name, setName] = useState(user?.name);
     const [email, setEmail] = useState(user?.email);
     const [password, setPassword] = useState(user?.password);
+    const [avatar, setAvatar] = useState(user?.avatar);
     const [loading, setLoading] = useState(false);
+
+    const pickImage = async () => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            base64: true, // Chuyển đổi ảnh sang Base64
+            quality: 1,
+        });
+        if (!result.canceled) {
+            setAvatar(result.assets[0].base64); // Lưu Base64 string vào state
+        }
+    };
 
     //handle update user data
     const handleUpdate = async () => {
@@ -29,6 +43,7 @@ const Account = () => {
                 name,
                 password,
                 email,
+                avatar
             }, {
                 headers: {
                     Authorization: `Bearer ${token && token}`
@@ -49,15 +64,15 @@ const Account = () => {
             <ScrollView>
                 <View style={{ alignItems: "center" }}>
                     <Image
-                        source={{
-                            uri: "https://cdn-icons-png.flaticon.com/512/219/219983.png",
-                            width: 200,
-                            height: 200,
-                        }}
+                        source={{ uri: `data:image/png;base64,${avatar}` }}
+                        style={{ width: 200, height: 200, borderRadius: 100 }}
                     />
+                    <TouchableOpacity onPress={pickImage} style={styles.pickImageBtn}>
+                        <Text style={styles.pickImageText}>Choose Image</Text>
+                    </TouchableOpacity>
                 </View>
                 <Text style={styles.warningtext}>
-                    Currently you can only update name and password
+                    Currently you can only update name, password and avatar
                 </Text>
                 <View style={styles.inputContainer}>
                     <Text style={styles.inputText}>Name: </Text>
@@ -115,6 +130,15 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         margin: 10,
         marginTop: 20,
+    },
+    pickImageBtn: {
+        marginTop: 10,
+        backgroundColor: "gray",
+        padding: 10,
+        borderRadius: 5,
+    },
+    pickImageText: {
+        color: "white",
     },
     warningtext: {
         color: "red",

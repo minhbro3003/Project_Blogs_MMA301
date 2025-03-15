@@ -17,7 +17,7 @@ const EditModal = ({ modalVisible, setModalVisible, post }) => {
             const { data } = await axios.put(`/post/update-post/${id}`, { title, description });
             setLoading(false)
             alert(data?.message)
-            navigation.navigate("Home");
+            navigation.push("Myposts")
         } catch (error) {
             setLoading(false)
             console.log("Error updating: ", error);
