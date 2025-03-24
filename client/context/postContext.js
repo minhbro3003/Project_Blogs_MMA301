@@ -14,7 +14,7 @@ const PostProvider = ({ children }) => {
         setLoading(true);
         try {
             const { data } = await axios.get("/post/get-all-posts");
-            console.log("Fetched Posts:", data?.posts); // Kiểm tra dữ liệu trả về
+            // console.log("Fetched Posts:", data?.posts); // Kiểm tra dữ liệu trả về
             setPosts(data?.posts || []); // Đảm bảo không set posts là undefined
         } catch (error) {
             console.log("Error fetching posts:", error);

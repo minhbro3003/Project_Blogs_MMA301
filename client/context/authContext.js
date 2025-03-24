@@ -34,7 +34,7 @@ const AuthProvider = ({ children }) => {
     }, []);
 
     // Cập nhật baseURL cho axios
-    axios.defaults.baseURL = "http://192.168.1.11:3001/api"; //192.168.1.11 | 10.33.34.134
+    axios.defaults.baseURL = "https://react-native-post-server.onrender.com/api"; //http://192.168.1.11:3001    192.168.1.11 | 10.33.34.134
 
     return (
         <AuthContext.Provider value={[state, setState]}>

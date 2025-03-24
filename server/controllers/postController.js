@@ -99,8 +99,7 @@ const createPostController = async (req, res) => {
 
 const getAllPostsController = async (req, res) => {
     try {
-        const { search, page = 1, limit = 10 } = req.query; // Lấy search, trang và giới hạn từ query
-        const skip = (page - 1) * limit; // Tính toán vị trí bắt đầu
+        const { search } = req.query; // Chỉ lấy search từ query
 
         let filter = {};
         if (search) {
@@ -112,21 +111,15 @@ const getAllPostsController = async (req, res) => {
             };
         }
 
-        const totalPosts = await postModel.countDocuments(filter); // Đếm tổng số bài viết
         const posts = await postModel
             .find(filter)
             .select("-_id -__v")
             .populate("postedBy", "_id name email")
-            .sort({ createdAt: -1 })
-            .skip(skip)
-            .limit(Number(limit));
+            .sort({ createdAt: -1 });
 
         res.status(200).send({
             success: true,
             message: "Posts fetched successfully",
-            totalPosts,
-            totalPages: Math.ceil(totalPosts / limit), // Tổng số trang
-            currentPage: Number(page),
             posts,
         });
     } catch (error) {

@@ -38,10 +38,10 @@ const Login = ({ navigation }) => {
             }
             alert(data && data.message);
             navigation.navigate("Home");
-            console.log("Login data: ", {
-                email: email,
-                password: password,
-            });
+            // console.log("Login data: ", {
+            //     email: email,
+            //     password: password,
+            // });
         } catch (error) {
             alert(error.response.data.message);
             setLoading(false);
@@ -52,7 +52,7 @@ const Login = ({ navigation }) => {
     useEffect(() => {
         const getLocalStorageData = async () => {
             let data = await AsyncStorage.getItem("@auth");
-            console.log("Local Storage: ", data);
+            // console.log("Local Storage: ", data);
         };
         getLocalStorageData();
     }, []); // Chỉ chạy một lần khi component mount

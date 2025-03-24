@@ -5,32 +5,26 @@ import {
     ScrollView,
     RefreshControl,
     TextInput,
-    TouchableOpacity,
     ActivityIndicator
 } from "react-native";
-import React, { useContext, useState, useCallback, useEffect } from "react";
-import { AuthContext } from "../context/AuthContext";
-import FooterMenu from "../components/Menus/FooterMenu";
-import { PostContext } from "../context/PostContext";
-import PostCard from "../components/PostCard";
+import React, { useState, useCallback, useEffect } from "react";
 import axios from "axios";
 import { FontAwesome } from "react-native-vector-icons";
+import FooterMenu from "../components/Menus/FooterMenu";
+import PostCard from "../components/PostCard";
 
 const Home = () => {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
     const [search, setSearch] = useState("");
-    const [page, setPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
 
-    const fetchPosts = async (currentPage = 1) => {
+    const fetchPosts = async () => {
         setLoading(true);
         try {
-            const { data } = await axios.get(`/post/get-all-posts?search=${search}&page=${currentPage}&limit=10`);
+            const { data } = await axios.get(`/post/get-all-posts?search=${search}`);
+            console.log("Data from API:", data);
             setPosts(data.posts);
-            setTotalPages(data.totalPages);
-            setPage(currentPage);
         } catch (error) {
             console.error("Error fetching posts:", error);
         }
@@ -77,27 +71,6 @@ const Home = () => {
                 </ScrollView>
             )}
 
-            {/* Pagination */}
-            <View style={styles.pagination}>
-                <TouchableOpacity
-                    style={[styles.pageButton, page <= 1 && styles.disabledButton]}
-                    onPress={() => fetchPosts(page - 1)}
-                    disabled={page <= 1}
-                >
-                    <Text style={styles.pageButtonText}>Prev</Text>
-                </TouchableOpacity>
-
-                <Text style={styles.pageText}>Page {page} / {totalPages}</Text>
-
-                <TouchableOpacity
-                    style={[styles.pageButton, page >= totalPages && styles.disabledButton]}
-                    onPress={() => fetchPosts(page + 1)}
-                    disabled={page >= totalPages}
-                >
-                    <Text style={styles.pageButtonText}>Next</Text>
-                </TouchableOpacity>
-            </View>
-
             <FooterMenu />
         </View>
     );
@@ -109,7 +82,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "space-between",
-        backgroundColor: "#f8f9fa", // Màu nền sáng nhẹ
+        backgroundColor: "#f8f9fa",
         padding: 10,
         marginTop: 10,
     },
@@ -125,7 +98,7 @@ const styles = StyleSheet.create({
         shadowColor: "#000",
         shadowOpacity: 0.1,
         shadowRadius: 4,
-        elevation: 2, // Hiệu ứng đổ bóng trên Android
+        elevation: 2,
     },
     icon: {
         marginRight: 8,
@@ -145,29 +118,5 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: "#666",
         marginTop: 10,
-    },
-    pagination: {
-        flexDirection: "row",
-        justifyContent: "center",
-        alignItems: "center",
-        marginVertical: 10,
-    },
-    pageButton: {
-        backgroundColor: "#007bff",
-        paddingVertical: 8,
-        paddingHorizontal: 15,
-        borderRadius: 8,
-        marginHorizontal: 5,
-    },
-    disabledButton: {
-        backgroundColor: "#ccc",
-    },
-    pageButtonText: {
-        color: "#fff",
-        fontSize: 16,
-    },
-    pageText: {
-        fontSize: 16,
-        color: "#333",
     },
 });

@@ -153,15 +153,16 @@ const styles = StyleSheet.create({
     },
     inputText: {
         fontWeight: "bold",
-        width: 70,
+        width: 80,
         color: "gray",
     },
     inputBox: {
-        width: 250,
+        width: 230,
+        height: 35,
         backgroundColor: "#ffffff",
         marginLeft: 10,
         fontSize: 16,
-        paddingLeft: 20,
+        paddingLeft: 10,
         borderRadius: 5,
     },
     updateBtn: {

@@ -27,11 +27,11 @@ const Register = ({ navigation }) => {
             });
             alert(data && data.message);
             navigation.navigate("Login");
-            console.log("register: ", {
-                name: name,
-                email: email,
-                password: password,
-            });
+            // console.log("register: ", {
+            //     name: name,
+            //     email: email,
+            //     password: password,
+            // });
         } catch (error) {
             alert(error.response.data.message);
             setLoading(false);
